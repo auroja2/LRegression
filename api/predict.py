@@ -1,3 +1,4 @@
+# api/predict.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -7,15 +8,16 @@ from mangum import Mangum  # Required for Vercel serverless
 
 app = FastAPI()
 
+# Allow your frontend to access the API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Can later restrict to your Vercel frontend URL
+    allow_origins=["*"],  # Replace with your frontend URL if needed
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Load model
+# Load your Day0 model (place day0.pkl in the same folder)
 model = pickle.load(open("day0.pkl", "rb"))
 
 class InputData(BaseModel):
@@ -30,5 +32,5 @@ def predict(data: InputData):
     except Exception as e:
         return {"error": str(e)}
 
-# Required for Vercel serverless
+# Mangum handler required for Vercel
 handler = Mangum(app)

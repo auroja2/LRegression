@@ -6,11 +6,12 @@ function App() {
   const [value2, setValue2] = useState("");
   const [prediction, setPrediction] = useState("");
 
-  // Use Vercel serverless function endpoint
-  const API_URL = "/api/app"; // after deployment, Vercel handles this
+  // Vercel serverless function endpoint
+  const API_URL = "/api/predict"; // After deployment, Vercel maps /api/predict to the function
 
   const handlePredict = async () => {
     try {
+      // Make POST request to FastAPI serverless function
       const response = await axios.post(API_URL, {
         values: [parseFloat(value1), parseFloat(value2)]
       });
@@ -39,7 +40,10 @@ function App() {
         style={{ margin: "5px", padding: "8px" }}
       />
       <br />
-      <button onClick={handlePredict} style={{ padding: "10px 20px", marginTop: "10px" }}>
+      <button
+        onClick={handlePredict}
+        style={{ padding: "10px 20px", marginTop: "10px" }}
+      >
         Predict
       </button>
       <h3>Prediction: {prediction}</h3>
