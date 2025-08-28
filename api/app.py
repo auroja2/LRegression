@@ -1,32 +1,25 @@
-# api/predict.py
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import pickle
 import numpy as np
-from fastapi.middleware.cors import CORSMiddleware
-from mangum import Mangum  # Required for serverless
+from mangum import Mangum  # Required for Vercel serverless
 
 app = FastAPI()
 
-# Allow CORS for all origins (or restrict to your frontend URL later)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=["*"],  # Can later restrict to your Vercel frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Load your model (put day0.pkl in the same folder as this file)
+# Load model
 model = pickle.load(open("day0.pkl", "rb"))
 
-# Request schema
 class InputData(BaseModel):
     values: list[float]
-
-@app.get("/")
-def home():
-    return {"message": "API is running!"}
 
 @app.post("/predict")
 def predict(data: InputData):

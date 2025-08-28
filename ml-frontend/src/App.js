@@ -7,7 +7,7 @@ function App() {
   const [prediction, setPrediction] = useState("");
 
   // Use Vercel serverless function endpoint
-  const API_URL = "/api/predict"; // after deployment, Vercel handles this
+  const API_URL = "/api/app"; // after deployment, Vercel handles this
 
   const handlePredict = async () => {
     try {
