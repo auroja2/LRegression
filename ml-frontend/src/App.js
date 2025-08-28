@@ -6,12 +6,11 @@ function App() {
   const [value2, setValue2] = useState("");
   const [prediction, setPrediction] = useState("");
 
-  // Vercel serverless function endpoint
-  const API_URL = "/api/predict"; // After deployment, Vercel maps /api/predict to the function
+  // Replace with your Railway backend URL after deployment
+  const API_URL = "https://your-railway-backend.up.railway.app/predict";
 
   const handlePredict = async () => {
     try {
-      // Make POST request to FastAPI serverless function
       const response = await axios.post(API_URL, {
         values: [parseFloat(value1), parseFloat(value2)]
       });
